@@ -1,0 +1,36 @@
+{% extends 'blog/main.html' %}
+
+{% block content %}
+
+    <img src="{{ user.profile.avatar.url }}" alt="Аватар">
+    <h2>Логин: {{ user.username }}</h2>
+
+    <div id="sweeties" class="menu">
+        <span style="font-size: 25px;" class="title">Ваши посты</span>
+        <ul>
+            {% for post in posts %}
+            <li><a style="text-decoration: none; font-weight: bold;" href="{% url 'single-page' post.id %}">{{ post.title|slice:100 }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+      <script>
+        let menuElem = document.getElementById('sweeties');
+        let titleElem = menuElem.querySelector('.title');
+    
+        titleElem.onclick = function() {
+          menuElem.classList.toggle('open');
+        };
+      </script>
+
+    <div class="form-section">
+        <h2>Изменить данные</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ update_form }}
+            {{ avatar_form }}
+            <button type="submit">Изменить</button>
+        </form>
+    </div>
+
+{% endblock %}

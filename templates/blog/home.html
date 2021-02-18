@@ -1,0 +1,43 @@
+{% extends 'blog/main.html' %}
+
+{% block content %}
+
+			<div class="wrap-container">
+				<section class="content-box box-style-1 box-4">
+					<div class="zerogrid" style="width: 100%">
+						<div class="wrap-box"><!--Start Box-->
+
+							{% if user.is_authenticated %} 
+								<div class="nav-right">
+									<a class="button-create" href="{% url 'post-new-page' %}">Создать новый пость</a>
+								</div>
+							{% endif %}
+
+							{% for post in posts %}
+
+								<div class="row">
+									<article>
+										<div class="col-1-2">
+											<img src="{{ post.image.url }}" alt="Фото статьи">
+										</div>
+										<div class="col-1-2">
+											<div class="entry-content t-center">
+
+												<h3><a href="{% url 'single-page' post.id %}">{{ post.title }}</a></h3>
+												<span>{{ post.author }}</span> <br>
+												<span>{{ post.date }}</span> <br>
+												<!-- <p>{{ post.text }}</p> -->
+												<a class="button" href="{% url 'single-page' post.id %}">Читать далее</a>
+											</div>
+										</div>
+									</article>
+								</div>
+
+							{% endfor %}	
+							
+						</div>
+					</div>
+				</section>
+			</div>
+		
+{% endblock %}		

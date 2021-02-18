@@ -1,0 +1,14 @@
+{% extends 'blog/main.html' %}
+
+{% block content %}
+
+<div class="form-section">
+    <h1>Удаление поста</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>Вы уверены, что хотите удалить "{{ post.title }}"</p>
+        <input style="padding: 10px" type="submit" value="Удалить">
+    </form>
+</div>
+
+{% endblock %}

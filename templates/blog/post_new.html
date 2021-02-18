@@ -1,0 +1,15 @@
+{% extends 'blog/main.html' %}
+
+{% block content %}
+
+<div class="form-section">
+    <h1>Новый пость</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form }}
+        <input type="submit" value="Сохранить">
+    </form>
+</div>
+    
+{% endblock %}

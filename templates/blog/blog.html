@@ -1,0 +1,78 @@
+{% extends 'blog/main.html' %}
+
+{% block content %}
+
+			<div class="wrap-container">
+				<!-----------------Content-Box-------------------->
+				<div id="main-content">
+					<div class="wrap-content">
+						<div class="row" style="margin: 0;">
+							<div class="center">
+								<div style="margin-left: auto; margin-right: auto; width: 30em">
+									<form action="{% url 'blog-page' %}" method="get">
+										<input name="q" type="text" placeholder="Поиск..." class="input-text">
+										<button type="submit" class="button-text">Поиск</button>
+									</form>						
+								</div>
+							</div>
+
+							{% if user.is_authenticated %} 
+								<div>
+									<a class="button-create" href="{% url 'post-new-page' %}">Создать новый пость</a>
+								</div>
+							{% endif %}
+
+							{% for post in posts %}
+								<article class="single-post zerogrid">
+									<div class="row wrap-post"><!--Start Box-->
+										<div class="entry-header">
+											<span class="time">{{ post.date }}</span>
+											<h2 class="entry-title"><a href="{% url 'single-page' post.id %}">{{ post.title }}</a></h2>
+											<span style="font-size: 20px;">Автор: {{ post.author }}</span>
+										</div>
+										<div class="post-thumbnail-wrap">
+											<img src="{{ post.image.url }}">
+										</div>
+										<div class="entry-content">
+											<p>{{ post.text|slice:400 }}...</p>
+											<center><a class="button " href="{% url 'single-page' post.id %}">Читать далее</a></center>
+										</div>
+									</div>
+								</article>
+							{% endfor %}	
+
+						</div>
+					</div>
+				</div>
+			</div>
+		{% if is_paginated %}
+			<div class="center" style="padding-bottom: 30px;">
+				<div class="pagination">
+					<p>
+					{% if page_obj.has_previous %}
+						<a href="{% url 'blog-page' %}"><<</a>   <!-- Начало-->
+						<a href="?page={{ page_obj.previous_page_number }}"><</a>   <!-- Назад -->
+					{% endif %}
+
+					{% for num in page_obj.paginator.page_range %}
+
+						{% if num == page_obj.number %}
+							<a class="active">{{ num }}</a>
+						{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+							<a href="?page={{ num }}">{{ num }}</a>
+						{% endif %}
+
+					{% endfor %}
+
+					{% if page_obj.has_next %}
+						<a href="?page={{ page_obj.next_page_number }}">></a>   <!-- Вперед-->
+						<a href="?page={{ page_obj.paginator.num_pages }}">>></a>  <!-- Последняя-->
+					{% endif %}
+					</p>
+				</div>
+			</div>	
+		{% endif %}
+		</section>
+
+{% endblock %}		
+
